@@ -45,7 +45,7 @@
                   @update:model-value="debouncedSearch"
                 />
               </v-col>
-              <v-col cols="6" sm="3">
+              <v-col cols="6" sm="3" class="d-flex ga-2 align-center">
                 <v-select
                   v-model="filterEvaluation"
                   :items="evaluationFilterOptions"
@@ -54,12 +54,9 @@
                   density="compact"
                   variant="outlined"
                   hide-details
+                  class="flex-grow-1"
                 />
-              </v-col>
-              <v-col cols="auto" class="d-flex align-center">
-                <v-btn size="small" variant="tonal" color="primary" prepend-icon="mdi-export" @click="showExportDialog = true">
-                  Export
-                </v-btn>
+                <v-btn size="small" variant="tonal" color="primary" icon="mdi-export" @click="showExportDialog = true" />
               </v-col>
             </v-row>
           </v-card-text>

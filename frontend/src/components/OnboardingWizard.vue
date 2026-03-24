@@ -9,7 +9,7 @@
       <v-icon>mdi-rocket-launch</v-icon>
     </template>
     <div class="onboarding-steps d-flex align-center ga-2">
-      <span class="text-body-2 font-weight-medium mr-2" style="white-space: nowrap;">Bắt đầu sử dụng:</span>
+      <span class="text-body-2 font-weight-medium mr-2" style="white-space: nowrap;">Bắt đầu:</span>
       <v-chip
         v-for="step in steps"
         :key="step.key"
