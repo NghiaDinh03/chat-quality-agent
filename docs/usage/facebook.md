@@ -50,7 +50,7 @@ Dành cho fanpage đã được thêm vào một Business Portfolio trên Meta B
 3. Vào mục **Tài khoản** → **Trang**.
 4. Chọn fanpage cần kết nối — **Page ID** hiển thị ngay bên phải, dưới tên fanpage.
 
-![Business Settings - Pages](/screenshots/facebook-meta/fb-fanpage-meta-business-5.png)
+![Business Settings - Pages](/screenshots/facebook-meta/fb-fanpage-meta-business-14.png)
 
 ::: tip Mẹo
 Bạn cũng có thể thấy Page ID trên URL. Ví dụ: `https://business.facebook.com/latest/home?asset_id=123456789` — số `asset_id` chính là Page ID.
