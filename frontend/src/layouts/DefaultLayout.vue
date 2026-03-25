@@ -141,19 +141,19 @@
         <div class="d-flex align-center flex-wrap ga-2">
           <div class="flex-grow-1">
             <div class="text-subtitle-2 font-weight-bold">
-              Phien ban moi: {{ updateInfo.latest }}
+              Phiên bản mới: {{ updateInfo.latest }}
             </div>
-            <div v-if="updateInfo.release_notes" class="text-body-2 mt-1" style="white-space: pre-line; max-height: 80px; overflow: hidden;">{{ updateInfo.release_notes }}</div>
             <div class="text-caption text-grey mt-1">
-              Phien ban hien tai: {{ updateInfo.current }}
+              Phiên bản hiện tại: {{ updateInfo.current }}
             </div>
           </div>
-          <div class="d-flex flex-column ga-1">
-            <v-btn size="small" variant="tonal" color="primary" :href="updateInfo.release_url" target="_blank" prepend-icon="mdi-open-in-new">Xem chi tiet</v-btn>
+          <div class="d-flex ga-1">
+            <v-btn size="small" variant="tonal" color="primary" href="https://tanviet12.github.io/chat-quality-agent/changelog.html" target="_blank" prepend-icon="mdi-format-list-bulleted">Changelog</v-btn>
+            <v-btn size="small" variant="tonal" color="primary" :href="updateInfo.release_url" target="_blank" prepend-icon="mdi-open-in-new">Chi tiết</v-btn>
           </div>
         </div>
         <div class="text-caption mt-2 text-grey-darken-1">
-          <a href="https://tanviet12.github.io/chat-quality-agent/guide/installation.html#tu-dong-cap-nhat-tuy-chon" target="_blank" class="text-primary">Cai Watchtower</a> de tu dong cap nhat, hoac chay:
+          <a href="https://tanviet12.github.io/chat-quality-agent/guide/installation.html#tu-%C4%91ong-cap-nhat-tuy-chon" target="_blank" class="text-primary">Cài Watchtower</a> để tự động cập nhật, hoặc chạy:
           <code class="text-caption">cd /opt/cqa && docker compose pull && docker compose up -d</code>
         </div>
       </v-alert>
