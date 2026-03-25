@@ -836,6 +836,9 @@ func GetChannelSyncHistory(c *gin.Context) {
 	if page < 1 {
 		page = 1
 	}
+	if perPage < 1 || perPage > 100 {
+		perPage = 10
+	}
 
 	var total int64
 	db.DB.Model(&models.ActivityLog{}).
