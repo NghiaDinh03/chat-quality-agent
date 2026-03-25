@@ -148,18 +148,17 @@
         closable
         @click:close="dismissUpdate"
       >
-        <div class="d-flex align-center flex-wrap ga-2">
-          <div class="flex-grow-1">
-            <span class="text-subtitle-2 font-weight-bold">Phiên bản mới: <a :href="'https://tanviet12.github.io/chat-quality-agent/changelog.html'" target="_blank" class="text-primary">{{ updateInfo.latest }}</a></span>
-            <span class="text-caption text-grey ml-2">| Hiện tại: {{ updateInfo.current }}</span>
-          </div>
+        <div class="d-flex align-center flex-wrap">
+          <span class="text-body-2">Có phiên bản mới: <a href="https://tanviet12.github.io/chat-quality-agent/changelog.html" target="_blank" class="text-primary font-weight-bold">{{ updateInfo.latest }}</a></span>
+          <span class="text-caption text-grey mx-2">|</span>
+          <span class="text-caption text-grey">Hiện tại: {{ updateInfo.current }}</span>
+          <span class="text-caption text-grey mx-2">|</span>
+          <span class="text-caption"><a href="https://tanviet12.github.io/chat-quality-agent/guide/installation.html#tu-%C4%91ong-cap-nhat-tuy-chon" target="_blank" class="text-primary">Cài Watchtower</a> để tự động cập nhật.</span>
         </div>
-        <div class="d-flex align-center mt-2 ga-2">
-          <code class="text-caption pa-1 bg-grey-lighten-4 rounded" style="user-select: all;">cd /opt/cqa && docker compose pull && docker compose up -d</code>
-          <v-btn icon="mdi-content-copy" size="x-small" variant="text" @click="copyUpdateCmd" />
-        </div>
-        <div class="text-caption mt-1 text-grey-darken-1">
-          <a href="https://tanviet12.github.io/chat-quality-agent/guide/installation.html#tu-%C4%91ong-cap-nhat-tuy-chon" target="_blank" class="text-primary">Cài Watchtower</a> để tự động cập nhật.
+        <div class="d-flex align-center mt-2 ga-1">
+          <span class="text-caption text-grey">Cập nhật thủ công:</span>
+          <code class="text-caption pa-1 rounded" style="user-select: all; background: #1e1e1e; color: #4fc3f7;">cd /opt/cqa && docker compose pull && docker compose up -d</code>
+          <v-btn icon="mdi-content-copy" size="x-small" variant="text" color="primary" @click="copyUpdateCmd" />
         </div>
       </v-alert>
 
