@@ -42,6 +42,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create scheduler: %v", err)
 	}
+	engine.SetDefaultScheduler(scheduler)
 	scheduler.Start()
 	defer scheduler.Stop()
 

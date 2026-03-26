@@ -96,6 +96,13 @@ func CreateJob(c *gin.Context) {
 		return
 	}
 
+	// Reload cron jobs if this is a scheduled job
+	if job.ScheduleType == "cron" {
+		if sched := engine.GetDefaultScheduler(); sched != nil {
+			sched.ReloadJobs()
+		}
+	}
+
 	c.JSON(http.StatusCreated, job)
 }
 
@@ -159,6 +166,18 @@ func UpdateJob(c *gin.Context) {
 		return
 	}
 
+	// Reload cron jobs if schedule changed
+	if _, ok := req["schedule_type"]; ok {
+		if sched := engine.GetDefaultScheduler(); sched != nil {
+			sched.ReloadJobs()
+		}
+	}
+	if _, ok := req["schedule_cron"]; ok {
+		if sched := engine.GetDefaultScheduler(); sched != nil {
+			sched.ReloadJobs()
+		}
+	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "updated"})
 }
 
@@ -183,6 +202,13 @@ func DeleteJob(c *gin.Context) {
 	db.DB.Where("job_id = ? AND tenant_id = ?", jobID, tenantID).Delete(&models.AIUsageLog{})
 	db.DB.Where("job_id = ? AND tenant_id = ?", jobID, tenantID).Delete(&models.NotificationLog{})
 	db.DB.Where("id = ? AND tenant_id = ?", jobID, tenantID).Delete(&models.Job{})
+
+	// Reload cron jobs after deletion
+	if job.ScheduleType == "cron" {
+		if sched := engine.GetDefaultScheduler(); sched != nil {
+			sched.ReloadJobs()
+		}
+	}
 
 	db.LogActivity(tenantID, middleware.GetUserID(c), middleware.GetUserEmail(c), "job.delete", "job", jobID, "Deleted job: "+job.Name, "", c.ClientIP())
 

@@ -19,6 +19,19 @@ type Scheduler struct {
 	cfg        *config.Config
 }
 
+// defaultScheduler is the global scheduler instance, accessible from handlers.
+var defaultScheduler *Scheduler
+
+// SetDefaultScheduler sets the global scheduler (called once from main).
+func SetDefaultScheduler(s *Scheduler) {
+	defaultScheduler = s
+}
+
+// GetDefaultScheduler returns the global scheduler.
+func GetDefaultScheduler() *Scheduler {
+	return defaultScheduler
+}
+
 func NewScheduler(cfg *config.Config) (*Scheduler, error) {
 	s, err := gocron.NewScheduler()
 	if err != nil {
@@ -158,6 +171,67 @@ func (s *Scheduler) loadCronJobs() {
 	}
 
 	log.Printf("[scheduler] loaded %d cron jobs", len(jobs))
+}
+
+// ReloadJobs removes all cron analysis jobs and reloads from DB.
+// Call this after creating, updating, or deleting a job.
+func (s *Scheduler) ReloadJobs() {
+	// Remove existing cron analysis jobs
+	jobs := s.scheduler.Jobs()
+	for _, j := range jobs {
+		if len(j.Name()) > 4 && j.Name()[:4] == "job-" {
+			if err := s.scheduler.RemoveJob(j.ID()); err != nil {
+				log.Printf("[scheduler] error removing job %s: %v", j.Name(), err)
+			}
+		}
+	}
+	// Reload from DB
+	s.loadCronJobs()
+	log.Println("[scheduler] cron jobs reloaded")
+}
+
+// TriggerAfterSyncJobs triggers all active after_sync jobs for a tenant+channel.
+func (s *Scheduler) TriggerAfterSyncJobs(tenantID, channelID string) {
+	var jobs []models.Job
+	if err := db.DB.Where("tenant_id = ? AND is_active = true AND schedule_type = 'after_sync'",
+		tenantID).Find(&jobs).Error; err != nil {
+		log.Printf("[scheduler] error querying after_sync jobs: %v", err)
+		return
+	}
+
+	for _, job := range jobs {
+		// Check if this job uses the synced channel
+		var channelIDs []string
+		if err := json.Unmarshal([]byte(job.InputChannelIDs), &channelIDs); err != nil {
+			continue
+		}
+		found := false
+		for _, id := range channelIDs {
+			if id == channelID {
+				found = true
+				break
+			}
+		}
+		if !found {
+			continue
+		}
+
+		j := job // capture
+		log.Printf("[scheduler] after-sync trigger: job=%s tenant=%s channel=%s", j.Name, tenantID, channelID)
+		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					log.Printf("[security] panic in after-sync job %s: %v", j.Name, r)
+				}
+			}()
+			analyzer := NewAnalyzer(s.cfg)
+			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
+			defer cancel()
+			if _, err := analyzer.RunJob(ctx, j); err != nil {
+				log.Printf("[scheduler] after-sync job %s failed: %v", j.Name, err)
+			}
+		}()
+	}
 }
 
 // SyncEngine returns the sync engine for manual trigger.
