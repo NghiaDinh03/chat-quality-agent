@@ -6,6 +6,7 @@
 - **Thông báo cập nhật**: Banner thông báo khi có phiên bản mới + changelog + hướng dẫn update
 - **Nút Dừng job**: Có thể dừng job đang chạy từ giao diện (#7)
 - **Docs + Version**: Hiển thị ở sidebar, truy cập nhanh tài liệu và changelog
+- **URL ứng dụng**: Cấu hình URL trong Cài đặt để link thông báo Telegram/Email chính xác (#43)
 
 ### Sửa lỗi
 - **Job bị treo**: Fix infinite loop khi batchSize=0, thêm context cancellation check, check lỗi DB query (#7)
@@ -16,6 +17,10 @@
 - **Tỷ giá**: Dashboard dùng tỷ giá từ tenant settings thay vì hardcode 26000 VND (#23)
 - **Install script**: Fix bị treo trên Ubuntu do interactive prompt (#35)
 - **Ảnh trong đánh giá**: Hiển thị ảnh/sticker/file trong "Diễn biến cuộc chat" + lightbox zoom (#39)
+- **Link Telegram**: Link thông báo dùng domain thực thay vì localhost (#43)
+- **Job polling**: Spinner/progress bar dùng server status, không timeout cứng — F5 tự resume polling
+- **Badge tab**: Đánh giá/Phân loại badge màu nổi hơn
+- **Mobile sidebar**: Không tự mở sidebar trên điện thoại sau khi login
 
 ### Bảo mật
 - Thêm security log khi từ chối truy cập file (IDOR fix)
@@ -25,6 +30,9 @@
 - Goroutine timeout cho TriggerJob và TestRunJob (#30, #31)
 - Giới hạn per_page max 100 tránh DB exhaustion (#32)
 - Infinite polling: Frontend tự dừng poll sau timeout (#27, #28)
+- **RBAC**: Phân quyền Member đầy đủ — backend middleware + frontend ẩn menu/nút + router guard (#42)
+- **Export**: Member không có quyền ghi không được export tin nhắn
+- **Tạo/xóa công ty**: Chỉ admin/owner mới được tạo và xóa công ty
 
 ### Tài liệu
 - Sửa hướng dẫn lấy Telegram Group ID — dùng Telegram Web (#36)
