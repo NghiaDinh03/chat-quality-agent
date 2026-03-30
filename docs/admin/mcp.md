@@ -18,13 +18,24 @@ Claude sẽ tự truy vấn CQA và trả lời.
 Vào menu **MCP** ở sidebar, bấm **Tạo kết nối**.
 
 1. Nhập **Tên kết nối** (ví dụ "Claude Desktop", "Claude Web")
-2. Bấm **Tạo**
-3. Hệ thống trả về:
+2. Nhập **Redirect URIs** — URL callback mà ứng dụng MCP sẽ redirect về sau khi xác thực:
+   - Claude Web: `https://claude.ai/api/mcp/auth_callback`
+   - Claude Desktop: để trống (không cần)
+   - Có thể nhập nhiều URI, nhấn **Enter** để thêm từng URI
+3. Chọn **Phân quyền (Scopes)**:
+   - `read` — chỉ đọc dữ liệu
+   - `write` — đọc + kích hoạt job (mặc định chọn cả hai)
+4. Bấm **Tạo**
+5. Hệ thống trả về:
    - **Client ID**: Mã định danh kết nối
    - **Client Secret**: Khóa bí mật (**chỉ hiển thị 1 lần**, copy ngay!)
 
 ::: danger Quan trọng
 **Client Secret chỉ hiển thị 1 lần** khi tạo. Nếu quên copy, bạn phải xóa kết nối và tạo lại.
+:::
+
+::: warning Redirect URI bắt buộc với Claude Web
+Nếu không điền Redirect URI khi tạo, Claude Web sẽ báo lỗi `invalid_redirect_uri` khi kết nối. Phải xóa và tạo lại client với URI đúng.
 :::
 
 ## Kết nối với Claude Desktop
@@ -55,12 +66,23 @@ Khởi động lại Claude Desktop. Bạn sẽ thấy icon CQA trong danh sách
 
 ## Kết nối với Claude Web
 
-Claude Web hỗ trợ MCP qua OAuth:
+Claude Web kết nối qua OAuth — cần cấu hình đúng **Redirect URI** khi tạo client.
 
-1. Vào Claude Web ([claude.ai](https://claude.ai))
-2. Bấm icon MCP > **Add MCP Server**
-3. Nhập URL: `https://cqa.yourdomain.com/mcp`
-4. Xác thực bằng Client ID và Client Secret
+**Bước 1:** Tạo MCP client trên CQA với Redirect URI:
+```
+https://claude.ai/api/mcp/auth_callback
+```
+
+**Bước 2:** Vào [claude.ai](https://claude.ai), bấm icon kết nối > **Add custom integration**
+
+**Bước 3:** Nhập URL MCP server:
+```
+https://cqa.yourdomain.com/mcp
+```
+
+**Bước 4:** Claude Web sẽ redirect sang CQA để xác thực. Đăng nhập bằng tài khoản CQA của bạn.
+
+**Bước 5:** Sau khi xác thực thành công, Claude Web hiển thị trạng thái **Connected**.
 
 ## Các công cụ MCP có sẵn
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## v2026.03.30
+
+### Tính năng mới
+- **MCP Redirect URIs & Scopes**: Tạo MCP client có thể cấu hình Redirect URIs và phân quyền (read/write) — bắt buộc để kết nối Claude Web
+
+### Sửa lỗi
+- **MCP OAuth**: Fix lỗi `invalid_redirect_uri` khi Claude.ai bấm Connect — do chưa cấu hình Redirect URI lúc tạo client
+- **Cron timezone**: Job chạy sai giờ (lệch 7 tiếng) do container dùng UTC — đã fix bằng cách prefix `TZ=<tenant_timezone>` vào cron expression và thêm `TZ=Asia/Ho_Chi_Minh` vào Docker
+
 ## v2026.03.26
 
 ### Tính năng mới
