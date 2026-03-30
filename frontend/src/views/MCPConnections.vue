@@ -62,7 +62,7 @@
           chips
           closable-chips
           class="mt-4"
-          hint="Nhập URL callback rồi nhấn Enter (vd: https://claude.ai/oauth/callback)"
+          hint="Nhập URL callback rồi nhấn Enter (vd: https://claude.ai/api/mcp/auth_callback)"
           persistent-hint
         />
 
