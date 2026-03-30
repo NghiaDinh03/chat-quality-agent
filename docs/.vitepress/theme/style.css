@@ -10,6 +10,13 @@
   .VPHero .image-container {
     display: none;
   }
+  .VPHero .container {
+    flex-direction: column;
+  }
+  .VPHero .main {
+    max-width: 100%;
+    text-align: center;
+  }
 }
 
 .medium-zoom-overlay {
